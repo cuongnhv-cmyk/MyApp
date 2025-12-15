@@ -31,13 +31,13 @@ export default function BottomTabs() {
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ color }) => renderTabIcon(route.name, color),
-                tabBarActiveTintColor: '#2563eb',
-                tabBarInactiveTintColor: '#9ca3af',
+                tabBarActiveTintColor: '#0063A6',
+                tabBarInactiveTintColor: '#212121',
                 headerShown: false,
             })}
         >
             <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="My Flight" component={MyFlightScreen} />
+            <Tab.Screen name="MyFlight" component={MyFlightScreen} />
             <Tab.Screen name="Account" component={AccountScreen} />
             <Tab.Screen name="Menu" component={MenuScreen} />
         </Tab.Navigator>

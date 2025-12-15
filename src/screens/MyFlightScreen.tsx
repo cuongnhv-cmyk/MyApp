@@ -11,8 +11,8 @@ export default function MyFlightScreen() {
     const navigation = useNavigation<RootNavigationProp>();
     return (
         <SafeAreaView className="flex-1">
-            <View className="p-2">
-                <View className="flex-row min-h-[64px] px-4 bg-[#E1E5EC] justify-between items-center mb-1">
+            <View className="p-2 border-4">
+                <View className="flex-row py-4 px-4 bg-[#E1E5EC] justify-between items-center mb-1 border-4 border-red">
                     <Text className="text-2xl font-bold text-[#212121]">
                         Cebu Pacific
                     </Text>
@@ -22,7 +22,7 @@ export default function MyFlightScreen() {
                     />
                 </View>
 
-                <View className="flex-row min-h-[48px] px-4 bg-[#E1E5EC] items-center mb-1">
+                <View className="flex-row py-3 px-4 bg-[#E1E5EC] items-center mb-1">
                     <Text className="text-sm font-bold text-[#212121]">
                         Travel Advisory:{' '}
                     </Text>
@@ -32,19 +32,24 @@ export default function MyFlightScreen() {
                     <Text className="text-sm text-[#212121] ">{'< >'}</Text>
                 </View>
 
-                <View className="flex-column min-h-[120px] px-4 bg-[#E1E5EC] p-6 justify-center mb-1">
+                <View className="flex-column py-6 px-4 bg-[#E1E5EC] p-6 justify-center mb-1">
                     <Text className="text-sm font-bold text-[#212121] mb-3">
                         Redeem flights with GoRewards points
                     </Text>
-                    <Button title="Log in" color="#7289EE" />
+                    <Pressable
+                        onPress={() => navigation.navigate('BookNow')}
+                        className="w-full bg-[#7289EE] py-3 items-center"
+                    >
+                        <Text className="text-white font-semibold">Log in</Text>
+                    </Pressable>
                 </View>
 
-                <View className="flex-column min-h-[430px] px-4 bg-[#FFFCE4] items-center p-6">
+                <View className="flex-column py-10 px-4 bg-[#FFFCE4] items-center p-6 mb-1">
                     <Image
                         source={require('../../assets/placeholder_image.png')}
                         className="mb-6 w-[319px] h-[266px]"
                     />
-                    <Text className="text-4xl text-[#212121] mb-3">
+                    <Text className="text-4xl text-[#212121] mb-6">
                         Book your next trip
                     </Text>
                     <View className="self-stretch">
@@ -59,7 +64,7 @@ export default function MyFlightScreen() {
                     </View>
                 </View>
 
-                <View className="flex-row min-h-[48px] px-6 bg-[#E1E5EC] items-center justify-center mb-1 gap-6">
+                <View className="flex-row py-3 px-6 bg-[#E1E5EC] items-center justify-center mb-1 gap-8">
                     <Text className="text-xl font-bold underline text-[#133FFF]">
                         Flight Status
                     </Text>
