@@ -1,0 +1,73 @@
+import { useNavigation } from '@react-navigation/native';
+import { View, Text, Image, Pressable, Button } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+import { RootStackParamList } from '../navigation/RootStack';
+
+export default function MyFlightScreen() {
+    type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+    const navigation = useNavigation<RootNavigationProp>();
+    return (
+        <SafeAreaView className="flex-1">
+            <View className="p-2">
+                <View className="flex-row min-h-[64px] px-4 bg-[#E1E5EC] justify-between items-center mb-1">
+                    <Text className="text-2xl font-bold text-[#212121]">
+                        Cebu Pacific
+                    </Text>
+                    <Image
+                        source={require('../../assets/header_question.png')}
+                        className="w-6 h-6"
+                    />
+                </View>
+
+                <View className="flex-row min-h-[48px] px-4 bg-[#E1E5EC] items-center mb-1">
+                    <Text className="text-sm font-bold text-[#212121]">
+                        Travel Advisory:{' '}
+                    </Text>
+                    <Text className="text-sm text-[#212121] flex-1">
+                        Cancelled flights due... (view all)
+                    </Text>
+                    <Text className="text-sm text-[#212121] ">{'< >'}</Text>
+                </View>
+
+                <View className="flex-column min-h-[120px] px-4 bg-[#E1E5EC] p-6 justify-center mb-1">
+                    <Text className="text-sm font-bold text-[#212121] mb-3">
+                        Redeem flights with GoRewards points
+                    </Text>
+                    <Button title="Log in" color="#7289EE" />
+                </View>
+
+                <View className="flex-column min-h-[430px] px-4 bg-[#FFFCE4] items-center p-6">
+                    <Image
+                        source={require('../../assets/placeholder_image.png')}
+                        className="mb-6 w-[319px] h-[266px]"
+                    />
+                    <Text className="text-4xl text-[#212121] mb-3">
+                        Book your next trip
+                    </Text>
+                    <View className="self-stretch">
+                        <Pressable
+                            onPress={() => navigation.navigate('BookNow')}
+                            className="w-full bg-blue-600 py-3 items-center"
+                        >
+                            <Text className="text-white font-semibold">
+                                Book now
+                            </Text>
+                        </Pressable>
+                    </View>
+                </View>
+
+                <View className="flex-row min-h-[48px] px-6 bg-[#E1E5EC] items-center justify-center mb-1 gap-6">
+                    <Text className="text-xl font-bold underline text-[#133FFF]">
+                        Flight Status
+                    </Text>
+                    <Text className="text-xl font-bold underline text-[#133FFF]">
+                        Check-in
+                    </Text>
+                </View>
+            </View>
+        </SafeAreaView>
+    );
+}
