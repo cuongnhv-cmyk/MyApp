@@ -1,21 +1,117 @@
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, Image, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { SegmentedControl } from '../components/SegmentedControl';
+import type { ListRenderItemInfo } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/RootStack';
 import { useNavigation } from '@react-navigation/native';
+import { RecentSearch } from '../types/recentSearch';
 
+type RecentSearchItemProps = {
+    item: RecentSearch;
+};
+
+function RecentSearchItem({ item }: RecentSearchItemProps) {
+    return (
+        <View className="flex-row bg-white rounded-lg p-4 justify-between items-center mb-2">
+            <Text className="text-xl">
+                {item.title}
+                {'\n'}
+                {item.subtitle}
+            </Text>
+            <Image
+                source={require('../../assets/icon_search_item.png')}
+                className="w-8 h-8"
+            />
+        </View>
+    );
+}
 export function BookNowScreen() {
-    const navigation = useNavigation();
+    type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+    const navigation = useNavigation<RootNavigationProp>();
+
+    const RECENT_SEARCHES = [
+        {
+            id: '1',
+            title: 'Clark - Singapore',
+            subtitle: '16 Nov - Dev • 1 guest',
+        },
+        {
+            id: '2',
+            title: 'Clark - Taipei',
+            subtitle: '16 Nov - Dev • 3 guests',
+        },
+        {
+            id: '3',
+            title: 'Manila - Davao',
+            subtitle: '16 Nov - Dev • 3 guests',
+        },
+    ];
 
     return (
-        <View className="flex-1 bg-white pt-12 px-4">
-            {/* Close button */}
-            <Pressable
-                onPress={() => navigation.goBack()}
-                className="absolute top-12 left-4 z-10"
-            >
-                <Text className="text-2xl">✕</Text>
-            </Pressable>
+        <SafeAreaView className="flex-1">
+            <View className="p-2">
+                <View className="flex-column py-4 px-4 justify-start mb-1">
+                    <View className="py-5 mb-2 ">
+                        <Pressable onPress={() => navigation.goBack()}>
+                            <Image
+                                source={require('../../assets/icon_close.png')}
+                                className="w-8 h-8"
+                            />
+                        </Pressable>
+                    </View>
+                    <View className="py-5">
+                        <Text className="text-4xl">Search</Text>
+                    </View>
+                </View>
 
-            {/* Content */}
-            <Text className="text-2xl font-bold mt-8">Book your flight</Text>
-        </View>
+                <View className="flex-column py-2 px-4 justify-start">
+                    <View className="mb-4">
+                        <SegmentedControl />
+                    </View>
+
+                    <View className="flex-row bg-white rounded-lg items-center mb-4 py-4 px-2 gap-20">
+                        <View className="flex-row items-center gap-10">
+                            <Image
+                                source={require('../../assets/icon_switch_route.png')}
+                                className="w-8 h-8"
+                            />
+                            <Text className="text-2xl">CRK{'\n'}Clark</Text>
+                        </View>
+
+                        <Pressable
+                            onPress={() =>
+                                navigation.navigate('SearchDestination')
+                            }
+                        >
+                            <Text className="text-2xl text-gray-500 ">
+                                Destination
+                            </Text>
+                        </Pressable>
+                    </View>
+                </View>
+
+                <View className="flex-column py-2 px-4 justify-start">
+                    <View className="flex-row items-center justify-between mb-4">
+                        <Text className="text-[#003A61] font-bold text-l">
+                            Your recent searches
+                        </Text>
+                        <Image
+                            source={require('../../assets/icon_recent_search.png')}
+                            className="w-8 h-8"
+                        />
+                    </View>
+                    <FlatList<RecentSearch>
+                        data={RECENT_SEARCHES}
+                        keyExtractor={item => item.id}
+                        renderItem={({
+                            item,
+                        }: ListRenderItemInfo<RecentSearch>) => (
+                            <RecentSearchItem item={item} />
+                        )}
+                    />
+                </View>
+            </View>
+        </SafeAreaView>
     );
 }
