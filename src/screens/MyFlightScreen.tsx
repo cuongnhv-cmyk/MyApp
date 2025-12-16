@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, Image, Pressable, Button } from 'react-native';
+import { View, Text, Image, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -11,8 +11,8 @@ export default function MyFlightScreen() {
     const navigation = useNavigation<RootNavigationProp>();
     return (
         <SafeAreaView className="flex-1">
-            <View className="p-2 border-4">
-                <View className="flex-row py-4 px-4 bg-[#E1E5EC] justify-between items-center mb-1 border-4 border-red">
+            <View className="p-2">
+                <View className="flex-row py-4 px-4 bg-[#E1E5EC] justify-between items-center mb-1">
                     <Text className="text-2xl font-bold text-[#212121]">
                         Cebu Pacific
                     </Text>
