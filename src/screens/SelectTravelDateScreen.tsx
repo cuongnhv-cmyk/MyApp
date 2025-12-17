@@ -2,8 +2,9 @@ import { View, Text, Pressable, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/RootStack';
+import { RootStackParamList } from '@navigation/RootStack';
 import { RouteProp } from '@react-navigation/native';
+import { ICON } from '@assets/icon';
 
 type Props = {
     route: RouteProp<RootStackParamList, 'SelectTravelDate'>;
@@ -18,10 +19,7 @@ export default function SelectTravelDateScreen({ route }: Props) {
                 <View className=" p-4 justify-start mb-1">
                     <View className="py-5 mb-2 ">
                         <Pressable onPress={() => navigation.goBack()}>
-                            <Image
-                                source={require('../../assets/icon_close.png')}
-                                className="w-8 h-8"
-                            />
+                            <Image source={ICON.close} className="w-8 h-8" />
                         </Pressable>
                     </View>
                     <View className="py-5">

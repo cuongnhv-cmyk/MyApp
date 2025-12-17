@@ -1,12 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, StyleSheet } from 'react-native';
-import HomeScreen from '../screens/HomeScreen';
-import MyFlightScreen from '../screens/MyFlightScreen';
-import AccountScreen from '../screens/AccountScreen';
-import MenuScreen from '../screens/MenuScreen';
-
-import { TAB_ICON } from './tabIcon';
+import HomeScreen from '@screens/HomeScreen';
+import MyFlightScreen from '@screens/MyFlightScreen';
+import AccountScreen from '@screens/AccountScreen';
+import MenuScreen from '@screens/MenuScreen';
+import { TAB_ICON } from '@navigation/tabIcon';
 
 const Tab = createBottomTabNavigator();
 

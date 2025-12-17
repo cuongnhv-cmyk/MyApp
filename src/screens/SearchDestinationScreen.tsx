@@ -8,11 +8,12 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { LocationSection } from '../types/locationSearch';
-import { Location } from '../types/locationSearch';
+import { LocationSection } from '@app-types/locationSearch';
+import { Location } from '@app-types/locationSearch';
 import { useMemo, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/RootStack';
+import { RootStackParamList } from '@navigation/RootStack';
+import { ICON } from '@assets/icon';
 
 const SECTIONS: LocationSection[] = [
     {
@@ -63,10 +64,7 @@ export default function SearchDestinationScreen() {
                 <View className="flex-1 py-4 px-4 justify-start mb-1">
                     <View className="py-5 mb-2 ">
                         <Pressable onPress={() => navigation.goBack()}>
-                            <Image
-                                source={require('../../assets/icon_close.png')}
-                                className="w-8 h-8"
-                            />
+                            <Image source={ICON.close} className="w-8 h-8" />
                         </Pressable>
                     </View>
                     <View className="py-5">
@@ -74,10 +72,7 @@ export default function SearchDestinationScreen() {
                     </View>
 
                     <View className="flex-row bg-white items-center p-4 rounded-lg mb-2">
-                        <Image
-                            source={require('../../assets/icon_search.png')}
-                            className="w-8 h-8"
-                        />
+                        <Image source={ICON.search} className="w-8 h-8" />
                         <TextInput
                             placeholder="City, Airport, Province, Region"
                             value={query}
@@ -85,10 +80,7 @@ export default function SearchDestinationScreen() {
                             className="ml-2 text-lg flex-1"
                         />
                         <Pressable onPress={() => setQuery('')}>
-                            <Image
-                                source={require('../../assets/icon_close.png')}
-                                className="w-8 h-8"
-                            />
+                            <Image source={ICON.close} className="w-8 h-8" />
                         </Pressable>
                     </View>
 

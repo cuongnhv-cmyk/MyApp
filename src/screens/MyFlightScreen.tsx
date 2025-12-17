@@ -2,8 +2,10 @@ import { useNavigation } from '@react-navigation/native';
 import { View, Text, Image, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ICON } from '@assets/icon';
+import { IMAGE } from '@assets/image';
 
-import { RootStackParamList } from '../navigation/RootStack';
+import { RootStackParamList } from '@navigation/RootStack';
 
 export default function MyFlightScreen() {
     type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -16,10 +18,7 @@ export default function MyFlightScreen() {
                     <Text className="text-2xl font-bold text-[#212121]">
                         Cebu Pacific
                     </Text>
-                    <Image
-                        source={require('../../assets/header_question.png')}
-                        className="w-6 h-6"
-                    />
+                    <Image source={ICON.headerQuestion} className="w-6 h-6" />
                 </View>
 
                 <View className="flex-row py-3 px-4 bg-[#E1E5EC] items-center mb-1">
@@ -46,7 +45,7 @@ export default function MyFlightScreen() {
 
                 <View className="flex-column py-10 px-4 bg-[#FFFCE4] items-center p-6 mb-1">
                     <Image
-                        source={require('../../assets/placeholder_image.png')}
+                        source={IMAGE.placeholder}
                         className="mb-6 w-[319px] h-[266px]"
                     />
                     <Text className="text-4xl text-[#212121] mb-6">

@@ -1,0 +1,13 @@
+// src/assets/icon/index.ts
+export const ICON = {
+    headerQuestion: require('@assets/icon/header_question.png'),
+    close: require('@assets/icon/icon_close.png'),
+    recentSearch: require('@assets/icon/icon_recent_search.png'),
+    searchItem: require('@assets/icon/icon_search_item.png'),
+    search: require('@assets/icon/icon_search.png'),
+    switchRoute: require('@assets/icon/icon_switch_route.png'),
+    account: require('@assets/icon/nav_account.png'),
+    home: require('@assets/icon/nav_home.png'),
+    menu: require('@assets/icon/nav_menu.png'),
+    myFlight: require('@assets/icon/nav_myflight.png'),
+} as const;
