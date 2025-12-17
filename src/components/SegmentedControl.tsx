@@ -1,5 +1,5 @@
 import { View, Text, Pressable } from 'react-native';
-import { useSegmentStore } from '../store/useSegmentStore';
+import { useSegmentStore } from '@store/useSegmentStore';
 
 const segments = ['Round-trip', 'One-way', 'Multi-city'] as const;
 

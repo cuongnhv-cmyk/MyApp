@@ -1,11 +1,12 @@
 import { View, Text, Pressable, Image, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SegmentedControl } from '../components/SegmentedControl';
+import { SegmentedControl } from '@components/SegmentedControl';
 import type { ListRenderItemInfo } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/RootStack';
+import { RootStackParamList } from '@navigation/RootStack';
 import { useNavigation } from '@react-navigation/native';
-import { RecentSearch } from '../types/recentSearch';
+import { RecentSearch } from '@app-types/recentSearch';
+import { ICON } from '@assets/icon';
 
 type RecentSearchItemProps = {
     item: RecentSearch;
@@ -19,10 +20,7 @@ function RecentSearchItem({ item }: RecentSearchItemProps) {
                 {'\n'}
                 {item.subtitle}
             </Text>
-            <Image
-                source={require('../../assets/icon_search_item.png')}
-                className="w-8 h-8"
-            />
+            <Image source={ICON.searchItem} className="w-8 h-8" />
         </View>
     );
 }
@@ -54,10 +52,7 @@ export function BookNowScreen() {
                 <View className="flex-column py-4 px-4 justify-start mb-1">
                     <View className="py-5 mb-2 ">
                         <Pressable onPress={() => navigation.goBack()}>
-                            <Image
-                                source={require('../../assets/icon_close.png')}
-                                className="w-8 h-8"
-                            />
+                            <Image source={ICON.close} className="w-8 h-8" />
                         </Pressable>
                     </View>
                     <View className="py-5">
@@ -73,7 +68,7 @@ export function BookNowScreen() {
                     <View className="flex-row bg-white rounded-lg items-center mb-4 py-4 px-2 gap-20">
                         <View className="flex-row items-center gap-10">
                             <Image
-                                source={require('../../assets/icon_switch_route.png')}
+                                source={ICON.switchRoute}
                                 className="w-8 h-8"
                             />
                             <Text className="text-2xl">CRK{'\n'}Clark</Text>
@@ -96,10 +91,7 @@ export function BookNowScreen() {
                         <Text className="text-[#003A61] font-bold text-l">
                             Your recent searches
                         </Text>
-                        <Image
-                            source={require('../../assets/icon_recent_search.png')}
-                            className="w-8 h-8"
-                        />
+                        <Image source={ICON.recentSearch} className="w-8 h-8" />
                     </View>
                     <FlatList<RecentSearch>
                         data={RECENT_SEARCHES}
