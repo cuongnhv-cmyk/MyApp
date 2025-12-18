@@ -1,16 +1,23 @@
-import { View, Text, Pressable, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '@navigation/RootStack';
-import { ICON } from '@assets/icon';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text } from 'react-native';
+import { useFlightStore } from '@store/useFlightStore';
+import { useDateStore } from '@store/useDateStore';
+import { formatDateObject } from '@utils/DateFormatter';
 
 export default function FlightDetailsScreen() {
-    type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
-    const navigation = useNavigation<RootNavigationProp>();
+    const destination = useFlightStore(state => state.destination);
+    const range = useDateStore(state => state.range);
+    const startDate = formatDateObject(range.start);
+
     return (
-        <SafeAreaView className="flex-1">
-            <View className="p-2 flex-1"></View>
-        </SafeAreaView>
+        <View className="px-4 mt-6 flex-1">
+            <Text className="text-2xl">
+                <Text>Clark </Text>
+                <Text className="font-bold">CRK </Text>
+                <Text>→ </Text>
+                <Text>{destination?.name} </Text>
+                <Text className="font-bold">{destination?.code}</Text>
+            </Text>
+            <Text className="text-xl">{startDate?.display}</Text>
+        </View>
     );
 }

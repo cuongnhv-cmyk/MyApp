@@ -4,11 +4,20 @@ import { useFlightStore } from '@store/useFlightStore';
 import { useDateStore } from '@store/useDateStore';
 import { ICON } from '@assets/icon';
 import { usePassengerStore } from '@store/usePassengerStore';
+import { formatDateObject } from '@utils/DateFormatter';
 
 export const FlightDetailsHeader = () => {
     const destination = useFlightStore(state => state.destination);
     const range = useDateStore(state => state.range);
     const passengerData = usePassengerStore(state => state.passengers);
+
+    const startDate = formatDateObject(range.start);
+    const endDate = formatDateObject(range.end);
+    const dateDisplay = startDate
+        ? `${startDate.day} ${startDate.month}${
+              endDate ? ` - ${endDate.day} ${endDate.month}` : ''
+          } ${startDate.year}`
+        : 'Select Date';
 
     // Passenger Display Logic
     const getPassengerLabel = (type: string, count: number) => {
@@ -26,27 +35,6 @@ export const FlightDetailsHeader = () => {
         .filter(([_, count]) => count > 0) // Only show categories > 0
         .map(([type, count]) => getPassengerLabel(type, count))
         .join(', ');
-
-    // Date Formatting Logic
-    const formatDate = (dateString: string | undefined) => {
-        if (!dateString) return null;
-        const d = new Date(dateString);
-        const day = d.getDate().toString().padStart(2, '0');
-        // Force Capitalization
-        const m = d.toLocaleDateString('en-US', { month: 'short' });
-        const month = m.charAt(0).toUpperCase() + m.slice(1);
-        const year = d.getFullYear();
-        return { label: `${day} ${month}`, year };
-    };
-
-    const start = formatDate(range.start || undefined);
-    const end = formatDate(range.end || undefined);
-
-    const dateDisplay = start
-        ? end
-            ? `${start.label} - ${end.label} ${end.year}`
-            : `${start.label} ${start.year}`
-        : 'Select date';
 
     return (
         <View className="items-center justify-center">

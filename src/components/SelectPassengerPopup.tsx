@@ -72,17 +72,17 @@ export const SelectPassengerPopup = ({
                                 type="adults"
                             />
                             <PassengerRow
-                                label="Children"
+                                label="Child"
                                 subLabel="Age 2 - 6 years"
                                 type="child"
                             />
                             <PassengerRow
-                                label="Infants"
+                                label="Infant on lap"
                                 subLabel="Your infant will not require a seat"
                                 type="infantOnLap"
                             />
                             <PassengerRow
-                                label="Infants"
+                                label="Infant on seat"
                                 type="infantOnSeat"
                                 subLabel="Under 2 years. Will be charged the same as adults and children"
                             />
