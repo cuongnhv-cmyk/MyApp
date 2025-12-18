@@ -10,4 +10,5 @@ export const ICON = {
     home: require('@assets/icon/nav_home.png'),
     menu: require('@assets/icon/nav_menu.png'),
     myFlight: require('@assets/icon/nav_myflight.png'),
+    calendar: require('@assets/icon/icon_calendar.png'),
 } as const;

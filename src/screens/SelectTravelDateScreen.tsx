@@ -5,6 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@navigation/RootStack';
 import { RouteProp } from '@react-navigation/native';
 import { ICON } from '@assets/icon';
+import { DateRangePicker } from '@components/DateRangePicker';
 
 type Props = {
     route: RouteProp<RootStackParamList, 'SelectTravelDate'>;
@@ -15,8 +16,8 @@ export default function SelectTravelDateScreen({ route }: Props) {
     const navigation = useNavigation<RootNavigationProp>();
     return (
         <SafeAreaView className="flex-1">
-            <View className=" p-2">
-                <View className=" p-4 justify-start mb-1">
+            <View className="p-2">
+                <View className="p-4 justify-start mb-1">
                     <View className="py-5 mb-2 ">
                         <Pressable onPress={() => navigation.goBack()}>
                             <Image source={ICON.close} className="w-8 h-8" />
@@ -26,11 +27,12 @@ export default function SelectTravelDateScreen({ route }: Props) {
                         <Text className="text-4xl">Select Travel Date</Text>
                     </View>
                 </View>
-                <View className="flex-row rounded-lg items-center mb-4 px-2 justify-center">
+                <View className="flex-row rounded-lg items-center mb-4 px-2 justify-center mb-8">
                     <Text className="text-2xl">
                         Clark CRK → {route.params.name} {route.params.code}
                     </Text>
                 </View>
+                <DateRangePicker />
             </View>
         </SafeAreaView>
     );
