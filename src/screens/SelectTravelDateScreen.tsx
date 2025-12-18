@@ -6,6 +6,10 @@ import { RootStackParamList } from '@navigation/RootStack';
 import { RouteProp } from '@react-navigation/native';
 import { ICON } from '@assets/icon';
 import { DateRangePicker } from '@components/DateRangePicker';
+import { SummaryFooter } from '@components/SummaryFooter';
+import { useDateStore } from '@store/useDateStore';
+import { SelectPassengerPopup } from '@components/SelectPassengerPopup';
+import { useState } from 'react';
 
 type Props = {
     route: RouteProp<RootStackParamList, 'SelectTravelDate'>;
@@ -14,9 +18,15 @@ type Props = {
 export default function SelectTravelDateScreen({ route }: Props) {
     type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
     const navigation = useNavigation<RootNavigationProp>();
+    const { range } = useDateStore();
+    const isDateSelectionComplete = !!(range.start && range.end);
+    const [isConinue, setIsContinue] = useState(false);
+    const onContinue = () => {
+        setIsContinue(true);
+    };
     return (
         <SafeAreaView className="flex-1">
-            <View className="p-2">
+            <View className="p-2 flex-1">
                 <View className="p-4 justify-start mb-1">
                     <View className="py-5 mb-2 ">
                         <Pressable onPress={() => navigation.goBack()}>
@@ -34,6 +44,14 @@ export default function SelectTravelDateScreen({ route }: Props) {
                 </View>
                 <DateRangePicker />
             </View>
+            <SummaryFooter
+                onContinue={onContinue}
+                isDisabled={!isDateSelectionComplete}
+            />
+            <SelectPassengerPopup
+                visible={isConinue}
+                onClose={() => setIsContinue(false)}
+            />
         </SafeAreaView>
     );
 }
