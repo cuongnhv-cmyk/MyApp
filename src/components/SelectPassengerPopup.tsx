@@ -5,6 +5,9 @@ import { PassengerRow } from '@components/PassengersRow';
 import { SummaryFooter } from './SummaryFooter';
 import { usePassengerStore } from '@store/usePassengerStore';
 import { SeatRequirementInfo } from './SeatRequirementDetail';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@navigation/RootStack';
 
 export const SelectPassengerPopup = ({
     visible,
@@ -13,6 +16,8 @@ export const SelectPassengerPopup = ({
     visible: boolean;
     onClose: () => void;
 }) => {
+    type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+    const navigation = useNavigation<RootNavigationProp>();
     const { passengers } = usePassengerStore();
     const totalPassengers =
         passengers.adults +
@@ -25,6 +30,9 @@ export const SelectPassengerPopup = ({
         const unit = totalPassengers === 1 ? 'passenger' : 'passengers';
 
         return `${totalPassengers} ${unit} selected`;
+    };
+    const onContinue = () => {
+        navigation.navigate('FlightDetails');
     };
     return (
         <Modal
@@ -86,7 +94,7 @@ export const SelectPassengerPopup = ({
             <SummaryFooter
                 label={getPassengerText()}
                 buttonLabel="Continue"
-                onContinue={onClose}
+                onContinue={onContinue}
                 isDisabled={!totalPassengers}
             />
         </Modal>

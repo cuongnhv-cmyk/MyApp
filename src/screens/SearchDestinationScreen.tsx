@@ -14,6 +14,7 @@ import { useMemo, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@navigation/RootStack';
 import { ICON } from '@assets/icon';
+import { useFlightStore } from '@store/useFlightStore';
 
 const SECTIONS: LocationSection[] = [
     {
@@ -58,6 +59,7 @@ export default function SearchDestinationScreen() {
             ),
         })).filter(section => section.data.length > 0);
     }, [query]);
+    const { setDestination } = useFlightStore();
     return (
         <SafeAreaView className="flex-1">
             <View className="flex-1 p-2">
@@ -107,12 +109,12 @@ export default function SearchDestinationScreen() {
                                 return (
                                     <Pressable
                                         onPress={() => {
+                                            setDestination(
+                                                item.name,
+                                                item.code,
+                                            );
                                             navigation.navigate(
                                                 'SelectTravelDate',
-                                                {
-                                                    name: item.name,
-                                                    code: item.code,
-                                                },
                                             );
                                         }}
                                     >

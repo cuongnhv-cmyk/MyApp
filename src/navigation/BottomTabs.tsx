@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
         width: 25,
     },
 });
+
 const renderTabIcon = (routeName: string, color: string) => {
     return (
         <Image

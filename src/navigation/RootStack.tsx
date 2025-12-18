@@ -7,17 +7,19 @@ import { BookNowScreen } from '@screens/BookNowScreen';
 import SearchDestinationScreen from '@screens/SearchDestinationScreen';
 import SelectTravelDateScreen from '@screens/SelectTravelDateScreen';
 import FlightDetailsScreen from '@screens/FlightDetailsScreen';
+import { FlightDetailsHeader } from '@components/FlightDetailsHeader';
 
 export type RootStackParamList = {
     Tabs: undefined;
     BookNow: undefined;
     SearchDestination: undefined;
-    SelectTravelDate: {
-        name: string;
-        code: string;
-    };
+    SelectTravelDate: undefined;
     FlightDetails: undefined;
 };
+
+const FlightDetailsHeaderWrapper = () => (
+    <FlightDetailsHeader title="Clark (CRK)" subtitle="Select departure date" />
+);
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -60,9 +62,9 @@ export default function RootStack() {
                 name="FlightDetails"
                 component={FlightDetailsScreen}
                 options={{
-                    presentation: 'modal',
                     title: 'Flight Details',
-                    headerShown: false,
+                    headerTitleAlign: 'center',
+                    headerTitle: FlightDetailsHeaderWrapper,
                 }}
             />
         </Stack.Navigator>

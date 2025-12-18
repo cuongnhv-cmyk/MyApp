@@ -12,4 +12,6 @@ export const ICON = {
     myFlight: require('@assets/icon/nav_myflight.png'),
     calendar: require('@assets/icon/icon_calendar.png'),
     information: require('@assets/icon/icon_information.png'),
+    goBack: require('@assets/icon/icon_go_back.png'),
+    flightRoundTrip: require('@assets/icon/icon_flight_round_trip.png'),
 } as const;

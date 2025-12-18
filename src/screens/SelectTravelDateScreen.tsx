@@ -3,7 +3,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@navigation/RootStack';
-import { RouteProp } from '@react-navigation/native';
 import { ICON } from '@assets/icon';
 import { DateRangePicker } from '@components/DateRangePicker';
 import { SummaryFooter } from '@components/SummaryFooter';
@@ -11,17 +10,14 @@ import { useDateStore } from '@store/useDateStore';
 import { SelectPassengerPopup } from '@components/SelectPassengerPopup';
 import { useState } from 'react';
 import moment from 'moment';
+import { useFlightStore } from '@store/useFlightStore';
 
-type Props = {
-    route: RouteProp<RootStackParamList, 'SelectTravelDate'>;
-};
-
-export default function SelectTravelDateScreen({ route }: Props) {
+export default function SelectTravelDateScreen() {
     type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
     const navigation = useNavigation<RootNavigationProp>();
     const { range } = useDateStore();
     const isDateSelectionComplete = !!(range.start && range.end);
-    const [isConinue, setIsContinue] = useState(false);
+    const [isContinue, setIsContinue] = useState(false);
     const onContinue = () => {
         setIsContinue(true);
     };
@@ -33,6 +29,7 @@ export default function SelectTravelDateScreen({ route }: Props) {
         }
         return 'Select dates';
     };
+    const { destination } = useFlightStore();
     return (
         <SafeAreaView className="flex-1">
             <View className="p-2 flex-1">
@@ -48,7 +45,7 @@ export default function SelectTravelDateScreen({ route }: Props) {
                 </View>
                 <View className="flex-row rounded-lg items-center mb-4 px-2 justify-center mb-8">
                     <Text className="text-2xl">
-                        Clark CRK → {route.params.name} {route.params.code}
+                        Clark CRK → {destination?.name} {destination?.code}
                     </Text>
                 </View>
                 <DateRangePicker />
@@ -60,7 +57,7 @@ export default function SelectTravelDateScreen({ route }: Props) {
                 isDisabled={!isDateSelectionComplete}
             />
             <SelectPassengerPopup
-                visible={isConinue}
+                visible={isContinue}
                 onClose={() => setIsContinue(false)}
             />
         </SafeAreaView>
