@@ -6,6 +6,7 @@ import BottomTabs from '@navigation/BottomTabs';
 import { BookNowScreen } from '@screens/BookNowScreen';
 import SearchDestinationScreen from '@screens/SearchDestinationScreen';
 import SelectTravelDateScreen from '@screens/SelectTravelDateScreen';
+import FlightDetailsScreen from '@screens/FlightDetailsScreen';
 
 export type RootStackParamList = {
     Tabs: undefined;
@@ -15,6 +16,7 @@ export type RootStackParamList = {
         name: string;
         code: string;
     };
+    FlightDetails: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -51,6 +53,15 @@ export default function RootStack() {
                 options={{
                     presentation: 'modal',
                     title: 'Select Travel Date',
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="FlightDetails"
+                component={FlightDetailsScreen}
+                options={{
+                    presentation: 'modal',
+                    title: 'Flight Details',
                     headerShown: false,
                 }}
             />

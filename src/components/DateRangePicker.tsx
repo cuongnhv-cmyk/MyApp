@@ -81,7 +81,10 @@ export const DateRangePicker = () => {
         <View>
             {/* 1. THE TRIGGER BUTTON */}
             <Pressable
-                onPress={() => setShowModal(true)}
+                onPress={() => {
+                    console.log('Calendar Button Pressed!');
+                    setShowModal(true);
+                }}
                 className="flex-row py-2 px-4 mx-4 border border-gray-200 justify-between items-center rounded-lg bg-white shadow-sm"
             >
                 <View className="flex-row items-center">

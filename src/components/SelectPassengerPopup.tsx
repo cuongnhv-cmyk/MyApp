@@ -37,12 +37,12 @@ export const SelectPassengerPopup = ({
                 onPress={onClose}
             >
                 <View
-                    className="w-full h-[480px] bg-white rounded-t-3xl shadow-2xl"
-                    // Stopping propagation so clicks inside don't close the modal
+                    className="w-full min-h-[480px] max-h-[100%] bg-white rounded-t-3xl shadow-2xl"
                     onStartShouldSetResponder={() => true}
                     onResponderTerminationRequest={() => false}
                 >
-                    <View className="px-4 flex-1">
+                    {/* Modal Content */}
+                    <View className="px-4">
                         <View className="py-5">
                             <Pressable onPress={onClose}>
                                 <Image
