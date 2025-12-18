@@ -1,31 +1,22 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
-import { useDateStore } from '../store/useDateStore';
-import moment from 'moment';
-
 interface Props {
-    onContinue: () => void;
-    isDisabled: boolean;
+    label: string;
+    buttonLabel?: string;
+    onContinue?: () => void;
+    isDisabled?: boolean;
 }
 
-export const SummaryFooter = ({ onContinue, isDisabled }: Props) => {
-    const { range } = useDateStore();
-
-    const getDurationText = () => {
-        if (range.start && range.end) {
-            const days =
-                moment(range.end).diff(moment(range.start), 'days') + 1;
-            return `Round-trips: ${days} days`;
-        }
-        return 'Select dates';
-    };
-
+export const SummaryFooter = ({
+    label,
+    buttonLabel,
+    onContinue,
+    isDisabled,
+}: Props) => {
     return (
         <View className="flex-row h-24 items-center justify-between px-6 bg-white border-t border-gray-200">
             <View>
-                <Text className="text-black text-base pb-1">
-                    {getDurationText()}
-                </Text>
+                <Text className="text-black text-base pb-1">{label}</Text>
             </View>
 
             <Pressable
@@ -41,7 +32,7 @@ export const SummaryFooter = ({ onContinue, isDisabled }: Props) => {
                         isDisabled ? 'text-gray-500' : 'text-white'
                     } font-bold text-base pb`}
                 >
-                    Continue
+                    {buttonLabel}
                 </Text>
             </Pressable>
         </View>

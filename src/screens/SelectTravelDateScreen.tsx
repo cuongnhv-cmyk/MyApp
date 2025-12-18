@@ -10,6 +10,7 @@ import { SummaryFooter } from '@components/SummaryFooter';
 import { useDateStore } from '@store/useDateStore';
 import { SelectPassengerPopup } from '@components/SelectPassengerPopup';
 import { useState } from 'react';
+import moment from 'moment';
 
 type Props = {
     route: RouteProp<RootStackParamList, 'SelectTravelDate'>;
@@ -23,6 +24,14 @@ export default function SelectTravelDateScreen({ route }: Props) {
     const [isConinue, setIsContinue] = useState(false);
     const onContinue = () => {
         setIsContinue(true);
+    };
+    const getDurationText = () => {
+        if (range.start && range.end) {
+            const days =
+                moment(range.end).diff(moment(range.start), 'days') + 1;
+            return `Round-trips: ${days} days`;
+        }
+        return 'Select dates';
     };
     return (
         <SafeAreaView className="flex-1">
@@ -45,6 +54,8 @@ export default function SelectTravelDateScreen({ route }: Props) {
                 <DateRangePicker />
             </View>
             <SummaryFooter
+                label={getDurationText()}
+                buttonLabel="Continue"
                 onContinue={onContinue}
                 isDisabled={!isDateSelectionComplete}
             />
