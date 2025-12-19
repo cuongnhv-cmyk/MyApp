@@ -2,86 +2,79 @@ import React, { useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 
-interface Props {
-    dataGroups: string[][]; // Array of 3 arrays: [['A1','B1'], ['A2','B2'], ['A3','B3']]
-}
-
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const CAROUSEL_WIDTH = (SCREEN_WIDTH - 80) / 3; // Adjusting for arrows/padding
+// Adjust this value so the arrows have enough room on the sides
+const CONTAINER_WIDTH = SCREEN_WIDTH - 60;
+const ITEM_WIDTH = CONTAINER_WIDTH / 3;
 
-const SyncedCarouselGroup = ({ dataGroups }: Props) => {
+export const SyncedCarouselGroup = ({ data }: { data: any[] }) => {
+    const ref = useRef<ICarouselInstance>(null);
     const [activeIndex, setActiveIndex] = useState(0);
 
-    // Refs to control the carousels
-    const carouselRefs = [
-        useRef<ICarouselInstance>(null),
-        useRef<ICarouselInstance>(null),
-        useRef<ICarouselInstance>(null),
-    ];
-
-    const handlePress = (direction: 'next' | 'prev') => {
-        const newIndex =
-            direction === 'next' ? activeIndex + 1 : activeIndex - 1;
-
-        // Boundary check
-        if (newIndex >= 0 && newIndex < dataGroups[0].length) {
-            setActiveIndex(newIndex);
-            // Loop through refs and animate them together
-            carouselRefs.forEach(ref => {
-                ref.current?.scrollTo({ index: newIndex, animated: true });
-            });
-        }
-    };
-
     return (
-        <View className="flex-row items-center justify-between bg-slate-100 p-4 rounded-2xl shadow-sm">
-            {/* Left Arrow */}
+        <View className="w-full flex-row items-center justify-center bg-white px-2">
+            {/* 1. Left Arrow */}
             <TouchableOpacity
-                onPress={() => handlePress('prev')}
-                disabled={activeIndex === 0}
-                className={`p-2 ${
-                    activeIndex === 0 ? 'opacity-20' : 'opacity-100'
-                }`}
+                onPress={() => ref.current?.prev()}
+                className="z-10 p-2"
             >
-                <Text className="text-2xl font-bold text-blue-600">{'<'}</Text>
+                <Text className="text-xl font-bold text-blue-500">{'<'}</Text>
             </TouchableOpacity>
 
-            {/* Synchronized Carousels Block */}
-            <View className="flex-row flex-1 justify-center space-x-1">
-                {dataGroups.map((group, i) => (
-                    <View key={i} style={{ width: CAROUSEL_WIDTH }}>
-                        <Carousel
-                            ref={carouselRefs[i]}
-                            width={CAROUSEL_WIDTH}
-                            height={50}
-                            data={group}
-                            enabled={false} // Prevents users from swiping and desyncing
-                            renderItem={({ item }) => (
-                                <View className="flex-1 items-center justify-center bg-white border border-slate-200 rounded-lg mx-1">
-                                    <Text className="text-lg font-semibold text-slate-800">
-                                        {item}
+            {/* 2. Carousel Wrapper */}
+            <View style={{ width: CONTAINER_WIDTH, height: 80 }}>
+                <Carousel
+                    ref={ref}
+                    // IMPORTANT: width here is the width of a SINGLE item
+                    width={ITEM_WIDTH}
+                    height={80}
+                    data={data}
+                    loop={false}
+                    // This allows items to be seen outside the 'active' slot
+                    style={{ width: CONTAINER_WIDTH, justifyContent: 'center' }}
+                    // windowSize={3} ensures at least 3 items are kept in memory
+                    windowSize={3}
+                    onSnapToItem={index => setActiveIndex(index)}
+                    renderItem={({ item, index }) => {
+                        const isSelected = index === activeIndex;
+                        return (
+                            <View
+                                style={{ width: ITEM_WIDTH, height: 80 }}
+                                className="px-1"
+                            >
+                                <View
+                                    className={`flex-1 items-center justify-center rounded-xl border ${
+                                        isSelected
+                                            ? 'border-gray-300 bg-gray-200'
+                                            : 'border-transparent bg-white'
+                                    }`}
+                                >
+                                    <Text
+                                        className={
+                                            isSelected
+                                                ? 'text-black'
+                                                : 'text-gray-400'
+                                        }
+                                    >
+                                        {item.date}
+                                    </Text>
+                                    <Text className="text-[10px]">
+                                        placeholder
                                     </Text>
                                 </View>
-                            )}
-                        />
-                    </View>
-                ))}
+                            </View>
+                        );
+                    }}
+                />
             </View>
 
-            {/* Right Arrow */}
+            {/* 3. Right Arrow */}
             <TouchableOpacity
-                onPress={() => handlePress('next')}
-                disabled={activeIndex === dataGroups[0].length - 1}
-                className={`p-2 ${
-                    activeIndex === dataGroups[0].length - 1
-                        ? 'opacity-20'
-                        : 'opacity-100'
-                }`}
+                onPress={() => ref.current?.next()}
+                className="z-10 p-2"
             >
-                <Text className="text-2xl font-bold text-blue-600">{'>'}</Text>
+                <Text className="text-xl font-bold text-blue-500">{'>'}</Text>
             </TouchableOpacity>
         </View>
     );
 };
-
-export default SyncedCarouselGroup;
