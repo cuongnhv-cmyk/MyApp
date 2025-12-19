@@ -12,15 +12,27 @@ import { useState } from 'react';
 import moment from 'moment';
 import { useFlightStore } from '@store/useFlightStore';
 
+// Types
+type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+// Function Name
 export default function SelectTravelDateScreen() {
-    type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+    // State
+    const [isContinue, setIsContinue] = useState(false);
+
+    // Hooks
     const navigation = useNavigation<RootNavigationProp>();
     const { range } = useDateStore();
-    const isDateSelectionComplete = !!(range.start && range.end);
-    const [isContinue, setIsContinue] = useState(false);
+    const { destination } = useFlightStore();
+
+    // Functions
+
+    // Triggers the passenger selection popup
     const onContinue = () => {
         setIsContinue(true);
     };
+
+    // Calculates and returns the string representation of the selected date range
     const getDurationText = () => {
         if (range.start && range.end) {
             const days =
@@ -29,33 +41,42 @@ export default function SelectTravelDateScreen() {
         }
         return 'Select dates';
     };
-    const { destination } = useFlightStore();
+
+    // Helper to determine if the user has selected both start and end dates
+    const isDateSelectionComplete = !!(range.start && range.end);
+
+    // JSX
     return (
         <SafeAreaView className="flex-1">
-            <View className="p-2 flex-1">
-                <View className="p-4 justify-start mb-1">
-                    <View className="py-5 mb-2 ">
+            <View className="flex-1 p-2">
+                <View className="mb-1 justify-start p-4">
+                    <View className="mb-2 py-5">
                         <Pressable onPress={() => navigation.goBack()}>
-                            <Image source={ICON.close} className="w-8 h-8" />
+                            <Image source={ICON.close} className="h-8 w-8" />
                         </Pressable>
                     </View>
+
                     <View className="py-5">
                         <Text className="text-4xl">Select Travel Date</Text>
                     </View>
                 </View>
-                <View className="flex-row rounded-lg items-center mb-4 px-2 justify-center mb-8">
+
+                <View className="mb-4 mb-8 flex-row items-center justify-center rounded-lg px-2">
                     <Text className="text-2xl">
                         Clark CRK → {destination?.name} {destination?.code}
                     </Text>
                 </View>
+
                 <DateRangePicker />
             </View>
+
             <SummaryFooter
                 label={getDurationText()}
                 buttonLabel="Continue"
                 onContinue={onContinue}
                 isDisabled={!isDateSelectionComplete}
             />
+
             <SelectPassengerPopup
                 visible={isContinue}
                 onClose={() => setIsContinue(false)}

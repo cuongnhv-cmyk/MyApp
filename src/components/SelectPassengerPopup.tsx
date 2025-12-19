@@ -8,60 +8,58 @@ import { SeatRequirementInfo } from './SeatRequirementDetail';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@navigation/RootStack';
+import { formatPassengerData } from '@utils/PassengerFormatter';
 
-export const SelectPassengerPopup = ({
-    visible,
-    onClose,
-}: {
+// Types
+type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+interface Props {
     visible: boolean;
     onClose: () => void;
-}) => {
-    type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+}
+
+// Function Name
+export const SelectPassengerPopup = ({ visible, onClose }: Props) => {
+    // Hooks
     const navigation = useNavigation<RootNavigationProp>();
     const { passengers } = usePassengerStore();
-    const totalPassengers =
-        passengers.adults +
-        passengers.child +
-        passengers.infantOnLap +
-        passengers.infantOnSeat;
-    const getPassengerText = () => {
-        if (totalPassengers === 0) return 'No passengers selected';
 
-        const unit = totalPassengers === 1 ? 'passenger' : 'passengers';
+    // Functions
 
-        return `${totalPassengers} ${unit} selected`;
-    };
+    // Navigates to the flight details screen after selection
     const onContinue = () => {
         navigation.navigate('FlightDetails');
     };
+
+    // Formats raw passenger data into displayable strings and totals
+    const passengerInfo = formatPassengerData(passengers);
+
+    // JSX
     return (
-        <Modal
-            visible={visible}
-            transparent={true}
-            animationType="slide" // Slips up from the bottom
-        >
+        <Modal visible={visible} transparent animationType="slide">
             <Pressable
-                className="flex-1 bg-black/40 justify-end"
+                className="flex-1 justify-end bg-black/40"
                 onPress={onClose}
             >
                 <View
-                    className="w-full min-h-[480px] max-h-[100%] bg-white rounded-t-3xl shadow-2xl"
+                    className="max-h-[100%] min-h-[480px] w-full rounded-t-3xl bg-white shadow-2xl"
                     onStartShouldSetResponder={() => true}
                     onResponderTerminationRequest={() => false}
                 >
-                    {/* Modal Content */}
                     <View className="px-4">
                         <View className="py-5">
                             <Pressable onPress={onClose}>
                                 <Image
                                     source={ICON.close}
-                                    className="w-8 h-8"
+                                    className="h-8 w-8"
                                 />
                             </Pressable>
                         </View>
+
                         <View className="py-5">
                             <Text className="text-4xl">Select passengers</Text>
                         </View>
+
                         <ScrollView
                             className="flex-grow"
                             showsVerticalScrollIndicator={false}
@@ -87,15 +85,17 @@ export const SelectPassengerPopup = ({
                                 subLabel="Under 2 years. Will be charged the same as adults and children"
                             />
                         </ScrollView>
+
                         <SeatRequirementInfo />
                     </View>
                 </View>
             </Pressable>
+
             <SummaryFooter
-                label={getPassengerText()}
+                label={passengerInfo.summary}
                 buttonLabel="Continue"
                 onContinue={onContinue}
-                isDisabled={!totalPassengers}
+                isDisabled={passengerInfo.total === 0}
             />
         </Modal>
     );

@@ -1,32 +1,32 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, StyleSheet } from 'react-native';
+import { Image } from 'react-native';
 import HomeScreen from '@screens/HomeScreen';
 import MyFlightScreen from '@screens/MyFlightScreen';
 import AccountScreen from '@screens/AccountScreen';
 import MenuScreen from '@screens/MenuScreen';
 import { TAB_ICON } from '@navigation/tabIcon';
 
+// Types
 const Tab = createBottomTabNavigator();
 
-const styles = StyleSheet.create({
-    icon: {
-        height: 25,
-        width: 25,
-    },
-});
-
-const renderTabIcon = (routeName: string, color: string) => {
-    return (
-        <Image
-            source={TAB_ICON[routeName as keyof typeof TAB_ICON]}
-            style={[styles.icon, { tintColor: color }]}
-            resizeMode="contain"
-        />
-    );
-};
-
+// Function Name
 export default function BottomTabs() {
+    // Functions
+
+    // Renders the icon using NativeWind for dimensions and inline style for the dynamic tint
+    const renderTabIcon = (routeName: string, color: string) => {
+        return (
+            <Image
+                source={TAB_ICON[routeName as keyof typeof TAB_ICON]}
+                className="h-[25px] w-[25px]"
+                style={{ tintColor: color }}
+                resizeMode="contain"
+            />
+        );
+    };
+
+    // JSX
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({

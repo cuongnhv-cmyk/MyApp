@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
+
+// Types
 interface Props {
     label: string;
     buttonLabel?: string;
@@ -7,30 +9,28 @@ interface Props {
     isDisabled?: boolean;
 }
 
-export const SummaryFooter = ({
-    label,
-    buttonLabel,
-    onContinue,
-    isDisabled,
-}: Props) => {
+// Function Name
+export const SummaryFooter = (props: Props) => {
+    // Props
+    const { label, buttonLabel, onContinue, isDisabled } = props;
+
+    // JSX
     return (
-        <View className="flex-row h-24 items-center justify-between px-6 bg-white border-t border-gray-200">
+        <View className="h-24 flex-row items-center justify-between border-t border-gray-200 bg-white px-6">
             <View>
-                <Text className="text-black text-base pb-1">{label}</Text>
+                <Text className="pb-1 text-base text-black">{label}</Text>
             </View>
 
             <Pressable
-                // Prevent action if disabled
                 onPress={isDisabled ? undefined : onContinue}
-                // Change background color to gray if disabled
                 className={`${
                     isDisabled ? 'bg-gray-300' : 'bg-black'
-                } px-8 py-3 rounded-full active:opacity-70`}
+                } rounded-full px-8 py-3 active:opacity-70`}
             >
                 <Text
                     className={`${
                         isDisabled ? 'text-gray-500' : 'text-white'
-                    } font-bold text-base pb`}
+                    } pb text-base font-bold`}
                 >
                     {buttonLabel}
                 </Text>

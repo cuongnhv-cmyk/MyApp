@@ -6,23 +6,17 @@ import { useDateStore } from '../store/useDateStore';
 import moment from 'moment';
 
 export const DateRangePicker = () => {
-    const { range, setRange, clearRange } = useDateStore();
+    // State
     const [showModal, setShowModal] = useState(false);
-
-    // Local state to manage the visual selection before hitting "Confirm"
     const [tempMarkedDates, setTempMarkedDates] = useState({});
     const [tempStart, setTempStart] = useState<string | null>(null);
 
-    // Sync local UI with Store whenever modal opens
-    useEffect(() => {
-        if (showModal && range.start && range.end) {
-            setTempStart(range.start);
-            generateRange(range.start, range.end);
-        }
-    }, [showModal, range.start, range.end]);
+    // Hooks
+    const { range, setRange, clearRange } = useDateStore();
 
-    // Take two dates and create a list of every single day in between
-    // so the calendar knows which boxes to color.
+    // Internal Functions
+
+    // Calculates and marks all dates between start and end for the Calendar UI
     const generateRange = (startStr: string, endStr: string) => {
         let marked: any = {};
         let start = moment(startStr);
@@ -47,11 +41,9 @@ export const DateRangePicker = () => {
         setTempMarkedDates(marked);
     };
 
-    // Check if we are starting a new selection or finishing one;
-    // if finishing, call the generateRange to fill the gap.
+    // Manages selection logic: starts a new range or completes an existing one
     const onDayPress = (day: any) => {
         const { dateString } = day;
-        // If it's a new selection
         if (!tempStart || Object.keys(tempMarkedDates).length > 1) {
             setTempStart(dateString);
             setTempMarkedDates({
@@ -62,13 +54,11 @@ export const DateRangePicker = () => {
                 },
             });
         } else {
-            // Completing the range
             generateRange(tempStart, dateString);
         }
     };
 
-    // Find the first and last days of the selection and save them
-    // to the permanent store.
+    // Commits the temporary selection to the global store
     const handleConfirm = () => {
         const keys = Object.keys(tempMarkedDates).sort();
         if (keys.length > 0) {
@@ -77,23 +67,26 @@ export const DateRangePicker = () => {
         setShowModal(false);
     };
 
+    // Side Effects
+
+    // Syncs local state with the store when the picker opens
+    useEffect(() => {
+        if (showModal && range.start && range.end) {
+            setTempStart(range.start);
+            generateRange(range.start, range.end);
+        }
+    }, [showModal, range.start, range.end]);
+
+    // UI Render
     return (
         <View>
-            {/* 1. THE TRIGGER BUTTON */}
             <Pressable
-                onPress={() => {
-                    console.log('Calendar Button Pressed!');
-                    setShowModal(true);
-                }}
-                className="flex-row py-2 px-4 mx-4 border border-gray-200 justify-between items-center rounded-lg bg-white shadow-sm"
+                onPress={() => setShowModal(true)}
+                className="mx-4 flex-row items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2 shadow-sm"
             >
                 <View className="flex-row items-center">
                     <Text
-                        className={`text-lg ${
-                            range.start
-                                ? 'text-black font-semibold'
-                                : 'text-gray-400'
-                        }`}
+                        className={`text-lg ${range.start ? 'font-semibold text-black' : 'text-gray-400'}`}
                     >
                         {range.start
                             ? moment(range.start).format('DD/MM/YYYY')
@@ -101,30 +94,24 @@ export const DateRangePicker = () => {
                     </Text>
                     <Text className="mx-3 text-gray-400">—</Text>
                     <Text
-                        className={`text-lg ${
-                            range.end
-                                ? 'text-black font-semibold'
-                                : 'text-gray-400'
-                        }`}
+                        className={`text-lg ${range.end ? 'font-semibold text-black' : 'text-gray-400'}`}
                     >
                         {range.end
                             ? moment(range.end).format('DD/MM/YYYY')
                             : 'DD/MM/YYYY'}
                     </Text>
                 </View>
-                <View className="bg-gray-100 p-1 justify-center items-center rounded-lg border border-gray-200">
-                    <Image source={ICON.calendar} className="w-8 h-8" />
+                <View className="items-center justify-center rounded-lg border border-gray-200 bg-gray-100 p-1">
+                    <Image source={ICON.calendar} className="h-8 w-8" />
                 </View>
             </Pressable>
 
-            {/* 2. THE MODAL */}
             <Modal visible={showModal} transparent animationType="fade">
-                <View className="flex-1 justify-center items-center bg-black/50 px-4">
-                    <View className="bg-white rounded-3xl p-5 w-full">
-                        {/* Header with Clear/Back */}
-                        <View className="flex-row justify-between mb-4">
+                <View className="flex-1 items-center justify-center bg-black/50 px-4">
+                    <View className="w-full rounded-3xl bg-white p-5">
+                        <View className="mb-4 flex-row justify-between">
                             <Pressable onPress={() => setShowModal(false)}>
-                                <Text className="text-gray-500 font-bold">
+                                <Text className="font-bold text-gray-500">
                                     Back
                                 </Text>
                             </Pressable>
@@ -135,7 +122,7 @@ export const DateRangePicker = () => {
                                     setTempStart(null);
                                 }}
                             >
-                                <Text className="text-red-500 font-bold">
+                                <Text className="font-bold text-red-500">
                                     Clear
                                 </Text>
                             </Pressable>
@@ -153,9 +140,9 @@ export const DateRangePicker = () => {
 
                         <Pressable
                             onPress={handleConfirm}
-                            className="bg-[#171717] py-4 rounded-full mt-6 items-center"
+                            className="mt-6 items-center rounded-full bg-[#171717] py-4"
                         >
-                            <Text className="text-white font-bold text-lg">
+                            <Text className="text-lg font-bold text-white">
                                 Confirm
                             </Text>
                         </Pressable>

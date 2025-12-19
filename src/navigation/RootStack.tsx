@@ -17,9 +17,7 @@ export type RootStackParamList = {
     FlightDetails: undefined;
 };
 
-const FlightDetailsHeaderWrapper = () => (
-    <FlightDetailsHeader title="Clark (CRK)" subtitle="Select departure date" />
-);
+const FlightDetailsHeaderWrapper = () => <FlightDetailsHeader />;
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
