@@ -14,6 +14,10 @@ import { useMemo, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@navigation/RootStack';
 import { ICON } from '@assets/icon';
+import { useFlightStore } from '@store/useFlightStore';
+
+// Types
+type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const SECTIONS: LocationSection[] = [
     {
@@ -40,12 +44,19 @@ const SECTIONS: LocationSection[] = [
         data: [{ id: '1', name: 'Singapore', code: 'SIN' }],
     },
 ];
-export default function SearchDestinationScreen() {
-    type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
-    const navigation = useNavigation<RootNavigationProp>();
 
+// Function Name
+export default function SearchDestinationScreen() {
+    // State
     const [query, setQuery] = useState('');
 
+    // Hooks
+    const navigation = useNavigation<RootNavigationProp>();
+    const { setDestination } = useFlightStore();
+
+    // Functions
+
+    // Filters the location sections based on the user's search query
     const filteredSections = useMemo(() => {
         if (!query.trim()) return SECTIONS;
 
@@ -58,44 +69,46 @@ export default function SearchDestinationScreen() {
             ),
         })).filter(section => section.data.length > 0);
     }, [query]);
+
+    // JSX
     return (
         <SafeAreaView className="flex-1">
             <View className="flex-1 p-2">
-                <View className="flex-1 py-4 px-4 justify-start mb-1">
-                    <View className="py-5 mb-2 ">
+                <View className="mb-1 flex-1 justify-start px-4 py-4">
+                    <View className="mb-2 py-5">
                         <Pressable onPress={() => navigation.goBack()}>
-                            <Image source={ICON.close} className="w-8 h-8" />
+                            <Image source={ICON.close} className="h-8 w-8" />
                         </Pressable>
                     </View>
+
                     <View className="py-5">
                         <Text className="text-4xl">Search Destination</Text>
                     </View>
 
-                    <View className="flex-row bg-white items-center p-4 rounded-lg mb-2">
-                        <Image source={ICON.search} className="w-8 h-8" />
+                    <View className="mb-2 flex-row items-center rounded-lg bg-white p-4">
+                        <Image source={ICON.search} className="h-8 w-8" />
                         <TextInput
                             placeholder="City, Airport, Province, Region"
                             value={query}
                             onChangeText={setQuery}
-                            className="ml-2 text-lg flex-1"
+                            className="ml-2 flex-1 text-lg"
                         />
                         <Pressable onPress={() => setQuery('')}>
-                            <Image source={ICON.close} className="w-8 h-8" />
+                            <Image source={ICON.close} className="h-8 w-8" />
                         </Pressable>
                     </View>
 
-                    <View className="flex-1 py-5 bg-white rounded-lg p-4">
-                        <Text className="text-[#003A61] font-bold px-2 mb-4">
+                    <View className="flex-1 rounded-lg bg-white p-4 py-5">
+                        <Text className="mb-4 px-2 font-bold text-[#003A61]">
                             All locations
                         </Text>
-                        {/* Search input */}
 
                         <SectionList<Location, LocationSection>
                             sections={filteredSections}
                             keyExtractor={item => item.id}
                             renderSectionHeader={({ section }) => (
                                 <View className="px-2 py-2">
-                                    <Text className="text-gray-500 font-bold text-sm">
+                                    <Text className="text-sm font-bold text-gray-500">
                                         {section.title}
                                     </Text>
                                 </View>
@@ -107,21 +120,21 @@ export default function SearchDestinationScreen() {
                                 return (
                                     <Pressable
                                         onPress={() => {
+                                            setDestination(
+                                                item.name,
+                                                item.code,
+                                            );
                                             navigation.navigate(
                                                 'SelectTravelDate',
-                                                {
-                                                    name: item.name,
-                                                    code: item.code,
-                                                },
                                             );
                                         }}
                                     >
-                                        <View className="flex-row px-6 py-3 justify-between items-center">
+                                        <View className="flex-row items-center justify-between px-6 py-3">
                                             <Text className="text-xl">
                                                 {item.name}
                                             </Text>
 
-                                            <View className="bg-gray-200 flex-row items-center justify-center p-2 rounded-xl">
+                                            <View className="flex-row items-center justify-center rounded-xl bg-gray-200 p-2">
                                                 <Text className="text-gray-500">
                                                     {item.code}
                                                 </Text>
