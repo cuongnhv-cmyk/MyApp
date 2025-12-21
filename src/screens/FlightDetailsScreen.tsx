@@ -30,7 +30,7 @@ export default function FlightDetailsScreen() {
                 <Text className="font-bold">{destination?.code}</Text>
             </Text>
             <Text className="text-xl">{startDate?.display}</Text>
-            <View className="justify-center p-4">
+            <View className="justify-center px-4">
                 <SyncedCarouselGroup data={myData} />
             </View>
         </View>
