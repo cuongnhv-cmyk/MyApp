@@ -36,48 +36,80 @@ export default function FlightDetailsScreen() {
             </View>
             <View className="flex-1 justify-center bg-[#FFFFFF] px-4">
                 <View className="w-full flex-row items-center overflow-hidden rounded-lg border border-gray-300 bg-slate-50">
-                    {/* Left Section (2/3) */}
+                    {/* Left Section */}
                     <View className="flex-[7] p-2">
+                        {/* Departure Flight */}
                         <View className="flex-row items-center">
                             <Image
-                                source={ICON.airplane}
-                                className="mr-2 h-4 w-4"
+                                source={ICON.yellowAirplane}
+                                className="mr-2 h-3 w-3"
                             />
                             <Text className="text-sm font-bold">
                                 Cebu Pacific
                             </Text>
                         </View>
 
-                        <View className="flex-row justify-between">
+                        <View className="-mt-1 flex-row justify-between">
                             <View>
                                 <Text className="text-lg">1:35 am</Text>
                                 <Text className="-mt-2 text-lg text-[#80888D]">
-                                    Clark
+                                    Singapore
                                 </Text>
                             </View>
                             <View className="flex-row items-center">
                                 <Text className="text-xs">........</Text>
                                 <Image
-                                    source={ICON.airplane}
-                                    className="mx-1 mt-2 h-6 w-6"
+                                    source={ICON.yellowAirplane}
+                                    className="mx-1 mt-2 h-5 w-5"
                                 />
                                 <Text className="text-xs">........</Text>
                             </View>
                             <View>
                                 <Text className="text-lg">5:35 am</Text>
                                 <Text className="-mt-2 text-lg text-[#80888D]">
-                                    Singapore
+                                    Cebu
+                                </Text>
+                            </View>
+                        </View>
+                        {/* Return Flight */}
+                        <View className="mt-1 flex-row items-center">
+                            <Image
+                                source={ICON.greenAirplane}
+                                className="tint-[#009681] mr-2 h-3 w-3"
+                            />
+                            <Text className="text-sm font-bold">Cebgo</Text>
+                        </View>
+
+                        <View className="-mt-1 flex-row justify-between">
+                            <View>
+                                <Text className="text-lg">1:35 am</Text>
+                                <Text className="-mt-2 text-lg text-[#80888D]">
+                                    Cebu
+                                </Text>
+                            </View>
+                            <View className="flex-row items-center">
+                                <Text className="text-xs">........</Text>
+                                <Image
+                                    source={ICON.greenAirplane}
+                                    className="mx-1 mt-2 h-5 w-5"
+                                />
+                                <Text className="text-xs">........</Text>
+                            </View>
+                            <View>
+                                <Text className="text-lg">5:35 am</Text>
+                                <Text className="-mt-2 text-lg text-[#80888D]">
+                                    Clark
                                 </Text>
                             </View>
                         </View>
 
-                        <View className="mt-4">
+                        <View className="mt-1">
                             <Text className="text-xs text-[#80888D]">
-                                5J 861 · 4h · Non-stop
+                                5J 861 · 4h · 1 Stop: Cebu (1h 30m)
                             </Text>
                         </View>
 
-                        <View className="mt-2 items-center justify-center self-start rounded-full border border-slate-200 bg-[#F2F5F6] px-4 py-1">
+                        <View className="mt-1 items-center justify-center self-start rounded-full border border-slate-200 bg-[#F2F5F6] px-4 py-1">
                             <Text className="text-xs text-black">
                                 2 seats left
                             </Text>
@@ -85,7 +117,7 @@ export default function FlightDetailsScreen() {
                     </View>
                     {/* Vertical Divider Line */}
                     <View className="h-[80%] w-[1px] bg-gray-300" />
-                    {/* Right Section (1/3) */}
+                    {/* Right Section */}
                     <View className="flex-[3] items-center justify-center bg-slate-50">
                         <Text className="text-sm text-black">PHP</Text>
                         <Text className="text-lg text-black">15,055.00</Text>

@@ -16,5 +16,6 @@ export const ICON = {
     flightRoundTrip: require('@assets/icon/icon_flight_round_trip.png'),
     carouselLeft: require('@assets/icon/icon_carousel_left.png'),
     carouselRight: require('@assets/icon/icon_carousel_right.png'),
-    airplane: require('@assets/icon/icon_airplane.png'),
+    yellowAirplane: require('@assets/icon/icon_yellow_airplane.png'),
+    greenAirplane: require('@assets/icon/icon_green_airplane.png'),
 } as const;
