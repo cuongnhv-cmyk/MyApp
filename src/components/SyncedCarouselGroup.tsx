@@ -1,13 +1,42 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, Image } from 'react-native';
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { ICON } from '@assets/icon';
+import { useDateStore } from '@store/useDateStore';
+import * as DateFormatter from '@utils/DateFormatter';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export const SyncedCarouselGroup = ({ data }: { data: any[] }) => {
     const ref = useRef<ICarouselInstance>(null);
     const [activeIndex, setActiveIndex] = useState(0);
+
+    // Get range from Zustand
+    const { range } = useDateStore();
+
+    // Generate Carousel Data
+    const carouselData = useMemo(() => {
+        if (!range.start || !range.end) return [];
+
+        // Explicitly type the result of the array
+        const dates: Date[] = DateFormatter.getDaysArray(
+            range.start,
+            range.end,
+        );
+
+        return dates.map((date: Date) => {
+            const formatted = DateFormatter.formatDateObject(date);
+            return {
+                id: date.toISOString().split('T')[0], // Use as key
+                weekday: formatted?.weekday,
+                day: formatted?.day,
+                month: formatted?.month,
+                display: formatted?.display, // "Mon, 27 Oct"
+            };
+        });
+    }, [range.start, range.end]);
+
+    if (carouselData.length === 0) return null;
 
     // If using Absolute, we can make the CONTAINER wider (e.g., -40)
     const CONTAINER_WIDTH = SCREEN_WIDTH - 20;
@@ -35,7 +64,7 @@ export const SyncedCarouselGroup = ({ data }: { data: any[] }) => {
                     ref={ref}
                     width={ITEM_WIDTH}
                     height={80}
-                    data={data}
+                    data={carouselData}
                     loop={false}
                     style={{ width: CONTAINER_WIDTH, justifyContent: 'center' }}
                     onSnapToItem={index => setActiveIndex(index)}
@@ -54,17 +83,18 @@ export const SyncedCarouselGroup = ({ data }: { data: any[] }) => {
                                     }`}
                                 >
                                     <Text
-                                        className={
-                                            isSelected
-                                                ? 'text-black'
-                                                : 'text-gray-400'
-                                        }
+                                        className={`text-sm ${isSelected ? 'text-black' : 'text-gray-500'}`}
                                     >
-                                        {item.date}
+                                        {item.weekday}, {item.day} {item.month}
                                     </Text>
-                                    <Text className="text-[10px]">
-                                        placeholder
-                                    </Text>
+                                    <View className="flex-row items-center justify-center">
+                                        <Text className="mr-1 text-xs">
+                                            PHP
+                                        </Text>
+                                        <Text className="text-small font-bold">
+                                            8,000.00
+                                        </Text>
+                                    </View>
                                 </View>
                             </View>
                         );
