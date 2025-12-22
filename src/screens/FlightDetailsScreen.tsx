@@ -1,12 +1,11 @@
-import { View, Text, Image, FlatList } from 'react-native';
+// Imports
+import React, { useState, useMemo } from 'react';
+import { View, Text, FlatList } from 'react-native';
 import { useFlightStore } from '@store/useFlightStore';
 import { useDateStore } from '@store/useDateStore';
 import { formatDateObject } from '@utils/DateFormatter';
 import { SyncedCarouselGroup } from '@components/SyncedCarouselGroup';
-import { ICON } from '@assets/icon/';
 import { FlightCard } from '@components/FlightCard';
-import { useState } from 'react';
-import { useMemo } from 'react';
 
 // Types
 interface FlightData {
@@ -20,43 +19,39 @@ interface FlightData {
     seatsLeft: number;
 }
 
+// Function Name
 export default function FlightDetailsScreen() {
+    // State
     const destination = useFlightStore(state => state.destination);
     const range = useDateStore(state => state.range);
-    const startDate = formatDateObject(range.start);
-
     const initialDate = formatDateObject(range.start);
-
-    // State
     const [selectedDate, setSelectedDate] = useState(
         initialDate?.display || '',
     );
 
-    // Hooks (useMemo)
+    // Hooks
     const filteredFlights = useMemo(() => {
         return Array(5)
             .fill(null)
             .map((_, index) => ({
                 id: `${selectedDate}-${index}`,
-                // This replaces the Airline name with the date from the carousel
                 airline: `Flight for ${selectedDate}`,
                 departureTime: '1:35 am',
                 arrivalTime: '5:35 am',
                 origin: 'Singapore',
                 destination: 'Cebu',
-                // Making the price change slightly so it feels like a new search
                 price: (15055 + index * 100).toLocaleString(),
                 seatsLeft: index + 2,
             }));
     }, [selectedDate]);
 
     // Functions
-
-    // Updates the state which triggers the useMemo and FlatList reload
+    // Updates the local date state to trigger data re-calculation
     const handleDateChange = (date: string) => {
         setSelectedDate(date);
     };
 
+    // JSX
     return (
         <View className="mt-6 flex-1 px-4">
             <Text className="mb-2 text-2xl">
@@ -66,12 +61,14 @@ export default function FlightDetailsScreen() {
                 <Text>{destination?.name} </Text>
                 <Text className="font-bold">{destination?.code}</Text>
             </Text>
-            <Text className="text-xl">{startDate?.display}</Text>
+
+            <Text className="text-xl">{selectedDate}</Text>
+
             <View className="justify-center px-4">
                 <SyncedCarouselGroup onDateChange={handleDateChange} />
             </View>
+
             <View className="flex-1 justify-center rounded-lg bg-[#FFFFFF] p-4">
-                {/* Flight List */}
                 <FlatList
                     data={filteredFlights}
                     keyExtractor={item => item.id}

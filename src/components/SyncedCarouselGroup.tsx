@@ -1,3 +1,4 @@
+// Imports
 import React, { useRef, useState, useMemo } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, Image } from 'react-native';
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
@@ -5,23 +6,25 @@ import { ICON } from '@assets/icon';
 import { useDateStore } from '@store/useDateStore';
 import * as DateFormatter from '@utils/DateFormatter';
 
+// Types
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 interface Props {
     onDateChange: (date: string) => void;
 }
+
+// Function Name
 export const SyncedCarouselGroup = ({ onDateChange }: Props) => {
+    // State
     const ref = useRef<ICarouselInstance>(null);
     const [activeIndex, setActiveIndex] = useState(0);
 
-    // Get range from Zustand
+    // Hooks
     const { range } = useDateStore();
 
-    // Generate Carousel Data
     const carouselData = useMemo(() => {
         if (!range.start || !range.end) return [];
 
-        // Explicitly type the result of the array
         const dates: Date[] = DateFormatter.getDaysArray(
             range.start,
             range.end,
@@ -30,18 +33,17 @@ export const SyncedCarouselGroup = ({ onDateChange }: Props) => {
         return dates.map((date: Date) => {
             const formatted = DateFormatter.formatDateObject(date);
             return {
-                id: date.toISOString().split('T')[0], // Use as key
+                id: date.toISOString().split('T')[0],
                 weekday: formatted?.weekday,
                 day: formatted?.day,
                 month: formatted?.month,
-                display: formatted?.display, // "Mon, 27 Oct"
+                display: formatted?.display,
             };
         });
     }, [range.start, range.end]);
 
-    if (carouselData.length === 0) return null;
-
-    // Syncs active index and notifies parent when any snap occurs
+    // Functions
+    // Synchronizes the local active index and notifies the parent of the date change
     const handleSnap = (index: number) => {
         const selectedItem = carouselData[index];
         if (!selectedItem || !selectedItem.display) return;
@@ -49,17 +51,17 @@ export const SyncedCarouselGroup = ({ onDateChange }: Props) => {
         onDateChange(selectedItem.display);
     };
 
-    // If using Absolute, we can make the CONTAINER wider (e.g., -40)
+    // JSX
+    if (carouselData.length === 0) return null;
+
     const CONTAINER_WIDTH = SCREEN_WIDTH - 20;
     const ITEM_WIDTH = CONTAINER_WIDTH / 3;
 
     return (
-        // Added 'relative' so the absolute arrows stay inside this box
         <View className="relative w-full flex-row items-center justify-center py-2">
-            {/* 1. Left Arrow - Now Absolute */}
             <TouchableOpacity
                 onPress={() => ref.current?.prev()}
-                style={{ position: 'absolute', left: -24, zIndex: 50 }} // Change 'left' to move it
+                style={{ position: 'absolute', left: -24, zIndex: 50 }}
                 className="h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-[#D9D9D9] shadow-sm"
             >
                 <Image
@@ -69,7 +71,6 @@ export const SyncedCarouselGroup = ({ onDateChange }: Props) => {
                 />
             </TouchableOpacity>
 
-            {/* 2. Carousel Wrapper */}
             <View style={{ width: CONTAINER_WIDTH, height: 80 }}>
                 <Carousel
                     ref={ref}
@@ -113,10 +114,9 @@ export const SyncedCarouselGroup = ({ onDateChange }: Props) => {
                 />
             </View>
 
-            {/* 3. Right Arrow - Now Absolute */}
             <TouchableOpacity
                 onPress={() => ref.current?.next()}
-                style={{ position: 'absolute', right: -24, zIndex: 50 }} // Change 'right' to move it
+                style={{ position: 'absolute', right: -24, zIndex: 50 }}
                 className="h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-[#D9D9D9] shadow-sm"
             >
                 <Image

@@ -1,6 +1,6 @@
 // Imports
 import React from 'react';
-import { View, Text, Image, FlatList, ScrollView } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { ICON } from '@assets/icon';
 
 // Types
@@ -20,9 +20,7 @@ export const FlightCard = ({ item }: { item: FlightData }) => {
     // JSX
     return (
         <View className="mb-4 w-full flex-row items-center overflow-hidden rounded-lg border border-gray-300 bg-[#F2F2F7]">
-            {/* Left Section */}
             <View className="flex-[7] p-2">
-                {/* Departure Flight */}
                 <View className="flex-row items-center">
                     <Image
                         source={ICON.yellowAirplane}
@@ -38,6 +36,7 @@ export const FlightCard = ({ item }: { item: FlightData }) => {
                             {item.origin}
                         </Text>
                     </View>
+
                     <View className="flex-row items-center">
                         <Text className="text-xs">........</Text>
                         <Image
@@ -46,6 +45,7 @@ export const FlightCard = ({ item }: { item: FlightData }) => {
                         />
                         <Text className="text-xs">........</Text>
                     </View>
+
                     <View>
                         <Text className="text-lg">{item.arrivalTime}</Text>
                         <Text className="-mt-2 text-lg text-[#80888D]">
@@ -54,7 +54,6 @@ export const FlightCard = ({ item }: { item: FlightData }) => {
                     </View>
                 </View>
 
-                {/* Return Flight */}
                 <View className="mt-1 flex-row items-center">
                     <Image
                         source={ICON.greenAirplane}
@@ -70,6 +69,7 @@ export const FlightCard = ({ item }: { item: FlightData }) => {
                             {item.destination}
                         </Text>
                     </View>
+
                     <View className="flex-row items-center">
                         <Text className="text-xs">........</Text>
                         <Image
@@ -78,6 +78,7 @@ export const FlightCard = ({ item }: { item: FlightData }) => {
                         />
                         <Text className="text-xs">........</Text>
                     </View>
+
                     <View>
                         <Text className="text-lg">5:35 am</Text>
                         <Text className="-mt-2 text-lg text-[#80888D]">
@@ -99,16 +100,15 @@ export const FlightCard = ({ item }: { item: FlightData }) => {
                 </View>
             </View>
 
-            {/* Vertical Divider */}
             <View className="h-[80%] w-[1px] bg-gray-300" />
 
-            {/* Right Section */}
             <View className="flex-[3] items-center justify-center bg-[#F2F2F7]">
                 <Text className="text-sm text-black">PHP</Text>
                 <Text className="text-lg text-black">{item.price}</Text>
                 <Text className="text-center text-sm text-[#80888D]">
                     All in-fare/guest
                 </Text>
+
                 <View className="mt-2 items-center justify-center rounded-full border border-slate-200 bg-black px-2 py-1">
                     <Text className="text-xs text-white">Discounted</Text>
                 </View>
