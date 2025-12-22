@@ -28,6 +28,7 @@ export const SelectPassengerPopup = ({ visible, onClose }: Props) => {
 
     // Navigates to the flight details screen after selection
     const onContinue = () => {
+        onClose();
         navigation.navigate('FlightDetails');
     };
 

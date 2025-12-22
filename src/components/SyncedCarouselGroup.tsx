@@ -7,7 +7,10 @@ import * as DateFormatter from '@utils/DateFormatter';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-export const SyncedCarouselGroup = ({ data }: { data: any[] }) => {
+interface Props {
+    onDateChange: (date: string) => void;
+}
+export const SyncedCarouselGroup = ({ onDateChange }: Props) => {
     const ref = useRef<ICarouselInstance>(null);
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -38,6 +41,14 @@ export const SyncedCarouselGroup = ({ data }: { data: any[] }) => {
 
     if (carouselData.length === 0) return null;
 
+    // Syncs active index and notifies parent when any snap occurs
+    const handleSnap = (index: number) => {
+        const selectedItem = carouselData[index];
+        if (!selectedItem || !selectedItem.display) return;
+        setActiveIndex(index);
+        onDateChange(selectedItem.display);
+    };
+
     // If using Absolute, we can make the CONTAINER wider (e.g., -40)
     const CONTAINER_WIDTH = SCREEN_WIDTH - 20;
     const ITEM_WIDTH = CONTAINER_WIDTH / 3;
@@ -67,7 +78,7 @@ export const SyncedCarouselGroup = ({ data }: { data: any[] }) => {
                     data={carouselData}
                     loop={false}
                     style={{ width: CONTAINER_WIDTH, justifyContent: 'center' }}
-                    onSnapToItem={index => setActiveIndex(index)}
+                    onSnapToItem={handleSnap}
                     renderItem={({ item, index }) => {
                         const isSelected = index === activeIndex;
                         return (
